@@ -11,7 +11,7 @@ module "webapp" {
   hello_world_function_memory_size = 128
 
   tags = {
-    ApplicationlOwner = "Kavin",
+    ApplicationOwner = "Kavin",
     FinancialOwner    = "Kavin",
     createdBy         = "Terraform",
     env               = "sandbox"
