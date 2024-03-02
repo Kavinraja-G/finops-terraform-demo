@@ -12,8 +12,8 @@ module "webapp" {
 
   tags = {
     ApplicationOwner = "Kavin",
-    FinancialOwner    = "Kavin",
-    createdBy         = "Terraform",
-    env               = "sandbox"
+    FinancialOwner   = "Kavin",
+    createdBy        = "Terraform",
+    env              = "sandbox"
   }
 }
