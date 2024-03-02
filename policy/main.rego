@@ -25,12 +25,12 @@ restricted_instance_types[i] = resources {
 deny[msg] {
 	resources := tags_contain_minimum_set[_]
 	resources != []
-	msg := sprintf("Missing required cost allocation tags for the following resources: %v", [resources])
+	msg := sprintf("Missing required cost allocation tags for the following resource: %v", [resources])
 }
 
 # deny resources with instances are created with large|metal instanceTypes
 deny[msg] {
 	resources := restricted_instance_types[_]
 	resources != []
-	msg = sprintf("Found restricted instanceType usage in following resources: `%v`. Should not contain [large|metal] instances.", [resources])
+	msg = sprintf("Found restricted instanceType usage in following resource: `%v`. Should not contain [large|metal] instances.", [resources])
 }
