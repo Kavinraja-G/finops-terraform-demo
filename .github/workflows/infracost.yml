@@ -16,6 +16,7 @@ jobs:
 
     env:
       TF_ROOT: .
+      REGO_POLICY_DIR: ./policy
 
     steps:
       - name: Setup Infracost
@@ -62,3 +63,4 @@ jobs:
                                      --github-token=${{github.token}} \
                                      --pull-request=${{github.event.pull_request.number}} \
                                      --behavior=update
+                                     --policy-path ${REGO_POLICY_DIR}/infracost.rego
