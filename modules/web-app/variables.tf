@@ -3,6 +3,11 @@ variable "instance_type" {
   type        = string
 }
 
+variable "tags" {
+  description = "Tags for resources created by Terraform"
+  default     = {}
+}
+
 variable "root_block_device_volume_size" {
   description = "The size of the root block device volume for the web app EC2 instance"
   type        = number

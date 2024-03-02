@@ -12,4 +12,6 @@ resource "aws_instance" "web_app" {
     volume_size = var.block_device_volume_size
     iops        = var.block_device_iops
   }
+
+  tags = var.tags
 }
