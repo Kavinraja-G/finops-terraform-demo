@@ -54,4 +54,4 @@ jobs:
 
     - name: Run Conftest Test
       id: conftest
-      run: ./conftest test --no-color ${{ env.WORKING_DIR }}/tfplan.json
+      run: ./conftest test --no-color ${{ env.WORKING_DIR }}tfplan.json
