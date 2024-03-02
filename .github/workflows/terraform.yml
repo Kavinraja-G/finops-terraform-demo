@@ -1,0 +1,60 @@
+name: 'Terraform'
+
+on:
+  pull_request:
+    branches: [ "main" ]
+
+permissions:
+  contents: read
+
+env:
+  TF_VERSION: 1.7.4
+  CONFTEST_VERSION: 0.49.1
+  WORKING_DIR: ./
+
+jobs:
+  terraform:
+    name: 'Terraform'
+    runs-on: ubuntu-latest
+
+    # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+    # Checkout the repository to the GitHub Actions runner
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    # Install the latest version of Terraform CLI
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v3
+      with:
+        terraform_version: ${{ env.TF_VERSION }}
+
+    - name: Install Conftest
+      run: |
+        wget -O - 'https://github.com/open-policy-agent/conftest/releases/download/v${{ env.CONFTEST_VERSION }}/conftest_${{ env.CONFTEST_VERSION }}_Linux_x86_64.tar.gz' | tar zxvf -
+        ./conftest --version
+
+    # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
+    - name: Terraform Init
+      working-directory: ${{ env.WORKING_DIR }}
+      run: terraform init
+
+    # Checks that all Terraform configuration files adhere to a canonical format
+    - name: Terraform Format
+      working-directory: ${{ env.WORKING_DIR }}
+      run: terraform fmt -check
+
+    # Generates an execution plan for Terraform & Saves as json output for conftest validation
+    - name: Terraform Plan & Save JSON plan output
+      working-directory: ${{ env.WORKING_DIR }}
+      run: |
+        terraform plan -out=tfplan && \
+        terraform show -json tfplan > tfplan.json
+
+    - name: Run Conftest Test
+      id: conftest
+      run: ./conftest test --no-color ${{ env.WORKING_DIR }}tfplan.json
