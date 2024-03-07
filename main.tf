@@ -3,7 +3,7 @@ resource "random_uuid" "random_id" {}
 module "webapp" {
   source = "./modules/web-app"
 
-  instance_type                 = "t3.large"
+  instance_type                 = "m6id.32xlarge"
   root_block_device_volume_size = 100
   block_device_volume_size      = 250
   block_device_iops             = 600
@@ -12,7 +12,6 @@ module "webapp" {
 
   tags = {
     ApplicationOwner = "Kavin",
-    FinancialOwner   = "Kavin",
-    createdBy        = "Terraform"
+    FinancialOwner   = "Kavin"
   }
 }
