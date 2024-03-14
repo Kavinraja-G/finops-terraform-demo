@@ -1,3 +1,4 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -27,6 +28,36 @@ spec:
             requests:
               cpu: "10m"
               memory: "20Mi"
+            limits:
+              cpu: "50m"
+              memory: "100Mi"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-kubernetes-v2
+  labels:
+    app.kubernetes.io/name: mysql
+    app.kubernetes.io/version: "5.7.21"
+    app.kubernetes.io/component: database
+    app.kubernetes.io/part-of: wordpress
+    app.kubernetes.io/managed-by: helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hello-kubernetes-v2
+  template:
+    metadata:
+      labels:
+        app: hello-kubernetes-v2
+    spec:
+      containers:
+        - name: hello-kubernetes-v2
+          image: paulbouwer/hello-kubernetes:1.5
+          ports:
+            - containerPort: 8080
+          resources:
             limits:
               cpu: "50m"
               memory: "100Mi"
